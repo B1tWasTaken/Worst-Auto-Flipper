@@ -39,7 +39,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             bot.state = null
             clearTimeout(timeout)
         }, 2500)
-    } if (isBed) {
+    if (isBed) {
         for (let i = 0; i < 3 * 1000/ 150; 1++) {   
             clickBedPurchase(flip.startingBid, lastWindowId +1)
             await sleep(150)
@@ -85,3 +85,4 @@ async function useWindowSkipPurchase(flip: Flip, isBed: boolean) { // doesn't rl
     
     await sleep(getConfigProperty('FLIP_ACTION_DELAY'));
     getFastWindowClicker().clickConfirm(flip.startingBid, flip.itemName, lastWindowId + 2)
+}
