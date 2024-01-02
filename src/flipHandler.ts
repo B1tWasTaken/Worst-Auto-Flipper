@@ -33,17 +33,19 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             flip.startingBid
         )} coins (Target: ${numberWithThousandsSeparators(flip.target)})`
     )
-
     if (getConfigProperty('USE_WINDOW_SKIPS')) {
         useWindowSkipPurchase(flip, isBed)
-
-        // clear timeout after 1sec, so there are no weird overlaps that mess up the windowIds
         setTimeout(() => {
             bot.state = null
             clearTimeout(timeout)
         }, 2500)
-    } else {
-        useRegularPurchase(bot)
+    } if (isBed) {
+        for (let i = 0; i < 3 * 1000/ 150; 1++) {   
+            getFastWindowClicker()
+            await sleep(150)
+        } else {
+            useRegularPurchase(bot)
+        }
     }
 }
 
@@ -64,14 +66,22 @@ async function useRegularPurchase(bot: MyBot) {
     })
 }
 
-async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
+async function useWindowSkipPurchase(flip: Flip, isBed: boolean) { // doesn't rlly matter as window skip instabans
     let lastWindowId = getFastWindowClicker().getLastWindowId()
 
     if (isBed) {
-        getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1)
+        getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1);
+        setTimeout(() => {
+            const intervalId = setInterval(() => {
+                getFastWindowClicker().clickPurchase(flip.startingBid, lastWindowId + 1)
+            }, 150)
+            setTimeout(() => {
+                clearInterval(intervalId); 
+            }, 3000);
+        }, 200); 
     } else {
-        getFastWindowClicker().clickPurchase(flip.startingBid, lastWindowId + 1)
+        getFastWindowClicker().clickPurchase(flip.startingBid, lastWindowId + 1);
     }
-    await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
+    
+    await sleep(getConfigProperty('FLIP_ACTION_DELAY'));
     getFastWindowClicker().clickConfirm(flip.startingBid, flip.itemName, lastWindowId + 2)
-}
