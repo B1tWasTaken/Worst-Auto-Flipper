@@ -41,7 +41,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         }, 2500)
     } if (isBed) {
         for (let i = 0; i < 3 * 1000/ 150; 1++) {   
-            clickBedPurchase()
+            clickBedPurchase(flip.startingBid, lastWindowId +1)
             await sleep(150)
         } else {
             useRegularPurchase(bot)
