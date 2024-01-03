@@ -42,14 +42,16 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
     if (isBed) {
       bot.addListener('windowOpen', async (window) => {
         for (let i = 0; i < 10; i++) {
-          clickWindow(bot, 31);
-          let title = getWindowTitle(window);
+          clickWindow(bot, 31)
+          let title = getWindowTitle(window)
           if (title.toString().includes('Confirm Purchase')) {
-              clickWindow(bot, 11);
-              bot.removeAllListeners('windowOpen');
+              clickWindow(bot, 11)
+              bot.removeAllListeners('windowOpen')
               bot.state = null;
-              return;
-      }
+              return }
+          if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('Confirm Purchase'))) {
+             return
+         }    
         await sleep(200);
     }
   });
