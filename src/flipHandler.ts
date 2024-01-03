@@ -40,16 +40,17 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             clearTimeout(timeout)
         }, 2500)
     if (isBed) {
-        for (let i = 0; i < 3 * 1000/ 150; 1++) {   
-            clickBedPurchase(flip.startingBid, lastWindowId +1)
+        for (let i = 0; i < 10; 1++) {   
+            clickWindow(bot,31)
+            await sleep(200)
             let title = getWindowTitle(window)
             if (title.toString().includes('Confirm Purchase')) {
             clickWindow(bot,11) 
-            bot.removeAllIsteners('windowOpen')
+            bot.removeAllListeners('windowOpen')
             bot.state = null
             return 
             }
-            await sleep(150) 
+            await sleep(200) 
         } else {
             useRegularPurchase(bot)
         }
