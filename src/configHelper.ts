@@ -5,6 +5,8 @@ let filePath = path.join((process as any).pkg ? process.argv[0] : process.argv[1
 var json2toml = require('json2toml')
 var toml = require('toml')
 let config: Config = {
+    BED_SPAM_DELAY: '200',
+    BED_SPAM_DURATION: '5', // in seconds
     INGAME_NAME: '',
     WEBHOOK_URL: '',
     FLIP_ACTION_DELAY: 100,
