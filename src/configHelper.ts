@@ -5,6 +5,7 @@ let filePath = path.join((process as any).pkg ? process.argv[0] : process.argv[1
 var json2toml = require('json2toml')
 var toml = require('toml')
 let config: Config = {
+    CLICK_DELAY: "150",
     INGAME_NAME: 'Adolf Hitler',
     WEBHOOK_URL: '',
     FLIP_ACTION_DELAY: 0, // I helped you
