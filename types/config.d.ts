@@ -3,8 +3,6 @@ interface SESSIONS {
 }
 
 interface Config {
-    BED_SPAM_DELAY: string
-    BED_SPAM_DURATION: string
     INGAME_NAME: string
     WEBHOOK_URL: string
     FLIP_ACTION_DELAY: number
