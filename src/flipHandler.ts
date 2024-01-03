@@ -40,20 +40,21 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             clearTimeout(timeout)
         }, 2500)
     if (isBed) {
-      var bedDelay = parseInt(getConfigProperty('CLICK_DELAY'))
       bot.addListener('windowOpen', async (window) => {
         while (true) {
            let title = getWindowTitle(window)
            clickWindow(bot, 31)
-          if (title.toString().includes('Confirm Purchase')) {
+           if (title.toString().includes('Confirm Purchase')) {
               clickWindow(bot, 11)
               bot.removeAllListeners('windowOpen')
-              bot.state = null;
-              break }
+              bot.state = null
+              return }
           if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('BIN Auction View'))) {
-             break
+             bot.removeAllListeners('windowOpen')
+              bot.state = null
+              return
          }    
-        await sleep(bedDelay);
+        await sleep(getConfigProperty('CLICK_DELAY');
     }
   });
 } else {
