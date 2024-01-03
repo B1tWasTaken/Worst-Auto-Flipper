@@ -49,7 +49,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
               bot.removeAllListeners('windowOpen')
               bot.state = null;
               return }
-          if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('Confirm Purchase'))) {
+          if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('BIN Auction View'))) {
              return
          }    
         await sleep(200);
