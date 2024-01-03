@@ -43,7 +43,6 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
       bot.addListener('windowOpen', async (window) => {
         for (let i = 0; i < 10; i++) {
           clickWindow(bot, 31);
-          await sleep(200);
           let title = getWindowTitle(window);
           if (title.toString().includes('Confirm Purchase')) {
               clickWindow(bot, 11);
@@ -51,7 +50,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
               bot.state = null;
               return;
       }
-      await sleep(200);
+        await sleep(200);
     }
   });
 } else {
