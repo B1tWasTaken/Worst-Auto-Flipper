@@ -40,23 +40,23 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             clearTimeout(timeout)
         }, 2500)
     if (isBed) {
-        for (let i = 0; i < 10; 1++) {   
-            clickWindow(bot,31)
-            await sleep(200)
-            let title = getWindowTitle(window)
-            if (title.toString().includes('Confirm Purchase')) {
-            clickWindow(bot,11) 
-            bot.removeAllListeners('windowOpen')
-            bot.state = null
-            return 
-            }
-            await sleep(200) 
-        } else {
-            useRegularPurchase(bot)
-        }
+      bot.addListener('windowOpen', async (window) => {
+        for (let i = 0; i < 10; i++) {
+          clickWindow(bot, 31);
+          await sleep(200);
+          let title = getWindowTitle(window);
+        if (title.toString().includes('Confirm Purchase')) {
+            clickWindow(bot, 11);
+            bot.removeAllListeners('windowOpen');
+            bot.state = null;
+            return;
+      }
+      await sleep(200);
     }
+  });
+} else {
+  useRegularPurchase(bot);
 }
-
 async function useRegularPurchase(bot: MyBot) {
     bot.addListener('windowOpen', async window => {
         let title = getWindowTitle(window)
