@@ -52,7 +52,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
                     bot.state = null;
                     return;
                 }
-                await sleep(250);
+                await sleep(200);
             }
         });
     } else {
