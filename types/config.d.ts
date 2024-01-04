@@ -3,7 +3,6 @@ interface SESSIONS {
 }
 
 interface Config {
-    CLICK_DELAY: number
     INGAME_NAME: string
     WEBHOOK_URL: string
     FLIP_ACTION_DELAY: number
