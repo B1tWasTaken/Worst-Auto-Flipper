@@ -37,6 +37,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         }, 2500);
     }
     if (isBed) {
+        console.log('Attempting to spam the Bed')
         bot.addListener('windowOpen', async (window) => {
             while (true) {
                 let title = getWindowTitle(window);
