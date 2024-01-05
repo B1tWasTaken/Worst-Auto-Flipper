@@ -43,6 +43,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
                 let title = getWindowTitle(window);
                 clickWindow(bot, 31);
                 if (title.toString().includes('Confirm Purchase')) {
+                    printMcChatToConsole('DEBUG: Clicking Bed')
                     clickWindow(bot, 11);
                     bot.removeAllListeners('windowOpen');
                     bot.state = null;
