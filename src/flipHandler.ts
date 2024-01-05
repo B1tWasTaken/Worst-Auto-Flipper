@@ -51,12 +51,11 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             clickWindow(bot, 11)
             bot.removeAllListeners('windowOpen')
             bot.state = null
-        } else {
-            useRegularPurchase(bot);
         }
     });
 }
-
+    else {
+        useRegularPurchase(bot)
 }
 
 async function useRegularPurchase(bot: MyBot) {
