@@ -47,12 +47,12 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
                     clickWindow(bot, 11);
                     bot.removeAllListeners('windowOpen');
                     bot.state = null;
-                    return;
+                    break;
                 }
                 if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('BIN Auction View'))) {
                     bot.removeAllListeners('windowOpen');
                     bot.state = null;
-                    return;
+                    break;
                 }
                 await sleep(200);
             }
