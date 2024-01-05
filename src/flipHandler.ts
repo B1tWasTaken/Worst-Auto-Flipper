@@ -41,15 +41,15 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         bot.addListener('windowOpen', async (window) => {
             while (true) {
                 let title = getWindowTitle(window);
+                printMcChatToConsole('DEBUG: Clicking Bed')
                 clickWindow(bot, 31);
                 if (title.toString().includes('Confirm Purchase')) {
-                    printMcChatToConsole('DEBUG: Clicking Bed')
                     clickWindow(bot, 11);
                     bot.removeAllListeners('windowOpen');
                     bot.state = null;
                     break;
                 }
-                if (!(title.toString().includes('Confirm Purchase')) || (title.toString().includes('BIN Auction View'))) {
+                if (!(title.toString().includes('Confirm Purchase')) && !(title.toString().includes('BIN Auction View'))) {
                     bot.removeAllListeners('windowOpen');
                     bot.state = null;
                     break;
