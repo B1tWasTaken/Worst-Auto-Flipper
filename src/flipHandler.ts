@@ -36,30 +36,27 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             clearTimeout(timeout);
         }, 2500);
     }
-    if (isBed) {
-        printMcChatToConsole('DEBUG: Attempting to spam the Bed')
-        bot.addListener('windowOpen', async (window) => {
-            while (true) {
-                let title = getWindowTitle(window);
-                printMcChatToConsole('DEBUG: Clicking Bed')
-                clickWindow(bot, 31);
-                if (title.toString().includes('Confirm Purchase')) {
-                    clickWindow(bot, 11);
-                    bot.removeAllListeners('windowOpen');
-                    bot.state = null;
-                    break;
-                }
-                if (!(title.toString().includes('Confirm Purchase')) && !(title.toString().includes('BIN Auction View'))) {
-                    bot.removeAllListeners('windowOpen');
-                    bot.state = null;
-                    break;
-                }
-                await sleep(200);
-            }
-        });
-    } else {
-        useRegularPurchase(bot);
-    }
+  if (isBed) {
+    printMcChatToConsole('DEBUG: Attempting to spam the Bed')
+    bot.addListener('windowOpen', async (window) => {
+        let title = getWindowTitle(window)
+        while (title.toString().includes('BIN Auction View')) {
+            printMcChatToConsole('DEBUG: Clicking Bed (srry if this spams lmfao)')
+            await sleep(200)
+            clickWindow(bot, 31)
+            title = getWindowTitle(window)
+        }
+        if (title.toString().includes('Confirm Purchase')) {
+            await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
+            clickWindow(bot, 11)
+            bot.removeAllListeners('windowOpen')
+            bot.state = null
+        } else {
+            useRegularPurchase(bot);
+        }
+    });
+}
+
 }
 
 async function useRegularPurchase(bot: MyBot) {
