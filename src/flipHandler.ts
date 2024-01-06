@@ -37,24 +37,30 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         }, 2500);
     }
   if (isBed) {
-    printMcChatToConsole('DEBUG: Attempting to spam the Bed')
+    let coflBuyDelay = new Date().getTime() - flip.purchaseAt.getTime()
+    let possibleClicks = Math.ceil(coflBuyDelay / 200) + 1
+    printMcChatToConsole('DEBUG: Attempting to spam the Bed and clicking: ${possibleClicks}')
     bot.addListener('windowOpen', async (window) => {
         let title = getWindowTitle(window)
-        while (title.toString().includes('BIN Auction View')) {
+        if (title.toString().includes('BIN Auction View')) {
             printMcChatToConsole('DEBUG: Clicking Bed (srry if this spams lmfao)')
+            for (let x = 0; x = possibleClicks; x++) {
             await sleep(200)
             clickWindow(bot, 31)
             title = getWindowTitle(window)
+            }
         }
+        for (let y = 0; y = 3, y++) {
         if (title.toString().includes('Confirm Purchase')) {
             await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
             clickWindow(bot, 11)
             bot.removeAllListeners('windowOpen')
             bot.state = null
+            return
+        }
         }
     });
-}
-    else {
+}    else {
         useRegularPurchase(bot)
 }
 
