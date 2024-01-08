@@ -51,6 +51,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
             if (title.toString().includes('BIN Auction View')) {
                 printMcChatToConsole('DEBUG: Clicking Bed (srry if this spams lmfao)')
                 for (let x = 0; x < possibleClicks; x++) {
+                    console.log('DEBUG:CLICKING')
                     clickWindow(bot, 31)
                     await sleep(200)
                     title = getWindowTitle(window)
