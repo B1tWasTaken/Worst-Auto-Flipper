@@ -42,10 +42,10 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
     }
 
     if (isBed) {
-        let cofl = new Date().getTime() - flip.purchaseAt.getTime()
-        let coflNet = cofl + 200
-        let possibleClicks = Math.ceil(coflNet / 200) 
-        printMcChatToConsole(`DEBUG: Attempting to spam the Bed and clicking: ${possibleClicks}`)
+        let cofl = Math.abs(new Date().getTime() - flip.purchaseAt.getTime())
+        let possibleClicks = (Math.ceil(cofl / 200))
+        let secant = (possibleClicks * 200) / 1000
+        printMcChatToConsole(`DEBUG: Attempting to spam the Bed and clicking: ${possibleClicks} for the duration of ${secant} seconds. `)
         bot.addListener('windowOpen', async (window) => {
             let title = getWindowTitle(window)
             if (title.toString().includes('BIN Auction View')) {
@@ -54,7 +54,6 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
                     console.log('DEBUG:CLICKING')
                     clickWindow(bot, 31)
                     await sleep(200)
-                    title = getWindowTitle(window)
                 }
             }
             for (let y = 0; y < 3; y++) {
