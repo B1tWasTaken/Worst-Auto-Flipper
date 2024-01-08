@@ -42,8 +42,9 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
     }
 
     if (isBed) {
-        let coflBuyDelay = new Date().getTime() - flip.purchaseAt.getTime()
-        let possibleClicks = Math.ceil(coflBuyDelay / 200) + 1
+        let cofl = new Date().getTime() - flip.purchaseAt.getTime()
+        let coflNet = cofl + 200
+        let possibleClicks = Math.ceil(coflNet / 200) 
         printMcChatToConsole(`DEBUG: Attempting to spam the Bed and clicking: ${possibleClicks}`)
         bot.addListener('windowOpen', async (window) => {
             let title = getWindowTitle(window)
