@@ -91,4 +91,4 @@ async function useRegularPurchase(bot: MyBot) {
 async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
     // bans you so removing it alltogether :p
 }
-8
+
