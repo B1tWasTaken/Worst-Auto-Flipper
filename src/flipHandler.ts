@@ -43,8 +43,8 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
 
     if (isBed) {
         let cofl = Math.abs(new Date().getTime() - flip.purchaseAt.getTime())
-        let possibleClicks = (Math.ceil(cofl / 200))
-        let secant = (possibleClicks * 200) / 1000
+        let possibleClicks = (Math.ceil(cofl / 100)) + 1
+        let secant = (possibleClicks * 100) / 1000
         printMcChatToConsole(`DEBUG: Attempting to spam the Bed and clicking: ${possibleClicks} for the duration of ${secant} seconds. `)
         bot.addListener('windowOpen', async (window) => {
             let title = getWindowTitle(window)
@@ -53,7 +53,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
                 for (let x = 0; x < possibleClicks; x++) {
                     console.log('DEBUG:CLICKING')
                     clickWindow(bot, 31)
-                    await sleep(200)
+                    await sleep(100)
                 }
             }
             for (let y = 0; y < 3; y++) {
