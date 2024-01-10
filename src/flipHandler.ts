@@ -13,16 +13,18 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         }, 1100)
         return
     }
+
     bot.state = 'purchasing'
-    let timeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
         if (bot.state === 'purchasing') {
             log("Resetting 'bot.state === purchasing' lock")
             bot.state = null
             bot.removeAllListeners('windowOpen')
         }
     }, 10000)
-    let isBed = flip.purchaseAt.getTime() > new Date().getTime()
-    let delayUntilBuyStart = isBed ? flip.purchaseAt.getTime() - new Date().getTime() : getConfigProperty('FLIP_ACTION_DELAY')
+
+    const isBed = flip.purchaseAt.getTime() > Date.now()
+    const delayUntilBuyStart = isBed ? flip.purchaseAt.getTime() - Date.now() : getConfigProperty('FLIP_ACTION_DELAY')
 
     bot.lastViewAuctionCommandForPurchase = `/viewauction ${flip.id}`
     await sleep(delayUntilBuyStart)
@@ -35,46 +37,34 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
     )
 
     if (getConfigProperty('USE_WINDOW_SKIPS')) {
-        useWindowSkipPurchase(flip, isBed)
-
-        // clear timeout after 1sec, so there are no weird overlaps that mess up the windowIds
-        setTimeout(() => {
-            bot.state = null
+        try {
+            const lastWindowId = getFastWindowClicker().getLastWindowId()
+            if (isBed) {
+                getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1)
+            } else {
+                getFastWindowClicker().clickPurchase(flip.startingBid, lastWindowId + 1)
+            }
+            await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
+            getFastWindowClicker().clickConfirm(flip.startingBid, flip.itemName, lastWindowId + 2)
             clearTimeout(timeout)
-        }, 2500)
-    } else {
-        useRegularPurchase(bot)
-    }
-}
-async function useRegularPurchase(bot: MyBot) {
-    bot.addListener('windowOpen', async window => {
-        let title = getWindowTitle(window)
-        for (let i = 0; i < 5; i++) {
-        if (title.toString().includes('BIN Auction View')) {
-            await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
-            clickWindow(bot, 31)
-        }
-    }
-    for (let ii = 0; ii < 5; ii++) {
-    if (title.toString().includes('Confirm Purchase')) {
-            await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
-            clickWindow(bot, 11)
-            bot.removeAllListeners('windowOpen')
             bot.state = null
-            return
+        } catch (error) {
+            log(`Error in useWindowSkipPurchase: ${error}`)
+            clearTimeout(timeout)
+            bot.state = null
         }
-    } 
-    })
-}
-
-async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
-    let lastWindowId = getFastWindowClicker().getLastWindowId()
-
-    if (isBed) {
-        getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1)
     } else {
-        getFastWindowClicker().clickPurchase(flip.startingBid, lastWindowId + 1)
+        bot.addListener('windowOpen', async window => {
+            const title = getWindowTitle(window)
+            if (title.toString().includes('BIN Auction View')) {
+                await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
+                clickWindow(bot, 31)
+            } else if (title.toString().includes('Confirm Purchase')) {
+                await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
+                clickWindow(bot, 11)
+                bot.removeAllListeners('windowOpen')
+                bot.state = null
+            }
+        })
     }
-    await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
-    getFastWindowClicker().clickConfirm(flip.startingBid, flip.itemName, lastWindowId + 2)
 }
