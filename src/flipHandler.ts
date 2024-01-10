@@ -49,13 +49,13 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
 async function useRegularPurchase(bot: MyBot) {
     bot.addListener('windowOpen', async window => {
         let title = getWindowTitle(window)
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 5; i++) {
         if (title.toString().includes('BIN Auction View')) {
             await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
             clickWindow(bot, 31)
         }
     }
-    for (let x = 0; x < 4; x++) {
+    for (let ii = 0; ii < 5; ii++) {
     if (title.toString().includes('Confirm Purchase')) {
             await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
             clickWindow(bot, 11)
@@ -69,6 +69,7 @@ async function useRegularPurchase(bot: MyBot) {
 
 async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
     let lastWindowId = getFastWindowClicker().getLastWindowId()
+
     if (isBed) {
         getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1)
     } else {
