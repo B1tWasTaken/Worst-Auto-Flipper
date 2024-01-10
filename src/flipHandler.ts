@@ -55,7 +55,7 @@ async function useRegularPurchase(bot: MyBot) {
             clickWindow(bot, 31)
         }
     }
-    for (let x = 0; y < 4; y++) {
+    for (let x = 0; x < 4; x++) {
     if (title.toString().includes('Confirm Purchase')) {
             await sleep(getConfigProperty('FLIP_ACTION_DELAY'))
             clickWindow(bot, 11)
@@ -69,7 +69,6 @@ async function useRegularPurchase(bot: MyBot) {
 
 async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
     let lastWindowId = getFastWindowClicker().getLastWindowId()
-
     if (isBed) {
         getFastWindowClicker().clickBedPurchase(flip.startingBid, lastWindowId + 1)
     } else {
