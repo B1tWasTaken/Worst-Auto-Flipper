@@ -24,8 +24,7 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
         }
     }, 10000)
 
-    let isBed = flip.purchaseAt.getTime() > new Date().getTime()
-    let bedIs = 
+    let isBed = flip.purchaseAt.getTime() > new Date().getTime() 
     bot.lastViewAuctionCommandForPurchase = `/viewauction ${flip.id}`
     bot.chat(bot.lastViewAuctionCommandForPurchase)
     printMcChatToConsole(
@@ -48,13 +47,19 @@ export async function flipHandler(bot: MyBot, flip: Flip) {
     bot.addListener('windowOpen', async (window) => {
         let title = getWindowTitle(window)
         if (title.toString().includes('BIN Auction View')) {
-            printMcChatToConsole('DEBUG: Clicking Bed (srry if this spams lmfao)')
+            printMcChatToConsole('DEBUG: Clicking Bed lol')
             const delay = cofl - 500
             await sleep(delay)
             for (let x = 0; x < 5; x++) {
                     clickWindow(bot, 31)
                     await sleep(100)
                 }
+            }
+        if (title.toString().includes('Confirm Purchase')) { 
+            clickWindow(bot, 11)
+            bot.removeAllListeners('windowOpen')
+            bot.state = null
+            return
             }
         }
     });
