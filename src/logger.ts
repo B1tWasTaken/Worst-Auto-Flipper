@@ -1,8 +1,9 @@
 import { Client, PacketMeta } from 'minecraft-protocol'
 import winston from 'winston'
 import { getConfigProperty } from './configHelper'
-let fs = require('fs')
-let path = require('path')
+import fs from 'fs'
+import path from 'path'
+
 let logFilePath = path.join((process as any).pkg ? process.argv[0] : process.argv[1], '..')
 
 let logger: winston.Logger
@@ -47,6 +48,10 @@ export function logPacket(packet: any, packetMeta: PacketMeta, toServer: boolean
         return
     }
 
+    if (packetMeta.name === 'chat' && packet.message.includes("This BIN sale is still in its grace period!")) {
+        return
+    }
+
     fs.writeFileSync(
         'packets.log',
         `${toServer ? 'toServer' : 'toClient'}: ${JSON.stringify(packet)}\n${JSON.stringify(packetMeta)}\n----------------------------------------------\n`,
@@ -71,10 +76,8 @@ export function printMcChatToConsole(string: string) {
     console.log('\x1b[0m\x1b[1m\x1b[90m' + msg + '\x1b[0m')
 }
 
-// this function adds a logging function to the wrtie function of the client
-// resulting in all sent packets being logged by the logPacket function
 export function addLoggerToClientWriteFunction(client: Client) {
-    ;(function () {
+    (function () {
         var old_prototype = client.write.prototype
         var old_init = client.write
         client.write = function (name, packet) {
