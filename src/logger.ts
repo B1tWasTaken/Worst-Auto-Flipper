@@ -51,6 +51,9 @@ export function logPacket(packet: any, packetMeta: PacketMeta, toServer: boolean
     if (packetMeta.name === 'chat' && packet.message.includes("This BIN sale is still in its grace period!")) {
         return
     }
+    if (packetMeta.name === 'chat' && packet.message.includes("Claiming this auction is on cooldown!")) {
+        return
+    }
 
     fs.writeFileSync(
         'packets.log',
