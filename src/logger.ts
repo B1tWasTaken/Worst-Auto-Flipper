@@ -43,18 +43,6 @@ export function logPacket(packet: any, packetMeta: PacketMeta, toServer: boolean
     if (!getConfigProperty('LOG_PACKAGES')) {
         return
     }
-
-    if (packetMeta.name !== 'window_click' && packetMeta.name !== 'open_window' && packetMeta.name !== 'window_items') {
-        return
-    }
-
-    if (packetMeta.name === 'chat' && packet.message.includes("This BIN sale is still in its grace period!")) {
-        return
-    }
-    if (packetMeta.name === 'chat' && packet.message.includes("Claiming this auction is on cooldown!")) {
-        return
-    }
-
     fs.writeFileSync(
         'packets.log',
         `${toServer ? 'toServer' : 'toClient'}: ${JSON.stringify(packet)}\n${JSON.stringify(packetMeta)}\n----------------------------------------------\n`,
