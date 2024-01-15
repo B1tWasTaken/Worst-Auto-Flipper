@@ -51,6 +51,12 @@ export function logPacket(packet: any, packetMeta: PacketMeta, toServer: boolean
 }
 
 export function printMcChatToConsole(string: string) {
+    if (string.includes("This BIN sale is still in its grace period")){
+        return
+    }
+    if (string.includes("Claiming this auction is on cooldown")){
+        return
+    }
     let msg = ''
     let split = string.split('§')
     msg += split[0]
