@@ -84,6 +84,5 @@ async function useRegularPurchase(bot: MyBot) {
 }
 
 async function useWindowSkipPurchase(flip: Flip, isBed: boolean) {
-    // Implement the logic for window skip purchase here
-    // This function was previously missing from your code
+    // BANS PPL XD!!
 }
