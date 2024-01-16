@@ -22,29 +22,37 @@ export function sendWebhookInitialized() {
     }
     let ingameName = getConfigProperty('INGAME_NAME')
     sendWebhookData({
-        content: 'Initialized Connection',
-        embeds: [
-            {
-                title: 'Initialized Connection',
-                fields: [
-                    { name: 'Connected as:', value: `\`\`\`${ingameName}\`\`\``, inline: false },
-                    {
-                        name: 'Started at:',
-                        value: `<t:${(Date.now() / 1000).toFixed(0)}:t>`,
-                        inline: false
-                    }
-                ],
-                thumbnail: { url: `https://minotar.net/helm/${ingameName}/600.png` }
-            }
-        ]
-    })
-}
+    embeds: [
+        {
+            title: 'Item Purchased',
+            fields: [
+                {
+                    name: 'Item:',
+                    value: `\`\`\`${itemName}\`\`\``,
+                    inline: true
+                },
+                {
+                    name: 'Bought for:',
+                    value: `\`\`\`${price}\`\`\``,
+                    inline: true
+                },
+                {
+                    name: 'Minimum Profit:',
+                    value: `\`\`\`${minProfit}\`\`\``,
+                    inline: true
+                }
+            ],
+            thumbnail: { url: `https://minotar.net/helm/${ingameName}/600.png` }
+        }
+    ]
+});
 
-export function sendWebhookItemPurchased(itemName: string, price: string) {
+
+export function sendWebhookItemPurchased(itemName: string, price: string, minProfit: string) {
     if (!isWebhookConfigured()) {
-        return
+        return;
     }
-    let ingameName = getConfigProperty('INGAME_NAME')
+    let ingameName = getConfigProperty('INGAME_NAME');
     sendWebhookData({
         embeds: [
             {
@@ -59,12 +67,17 @@ export function sendWebhookItemPurchased(itemName: string, price: string) {
                         name: 'Bought for:',
                         value: `\`\`\`${price}\`\`\``,
                         inline: true
+                    },
+                    {
+                        name: 'Minimum Profit:',
+                        value: `\`\`\`${minProfit}\`\`\``,
+                        inline: true
                     }
                 ],
                 thumbnail: { url: `https://minotar.net/helm/${ingameName}/600.png` }
             }
         ]
-    })
+    });
 }
 
 export function sendWebhookItemSold(itemName: string, price: string, purchasedBy: string) {
