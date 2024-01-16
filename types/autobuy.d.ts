@@ -6,6 +6,7 @@ interface SellData {
     duration: number
     itemName: string
     id: string
+    minProfit: number
 }
 
 interface TradeData {
